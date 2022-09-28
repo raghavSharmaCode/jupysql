@@ -58,8 +58,6 @@ if not Path('my.db').is_file():
 
 Now, let's initialize the extension so we only retrieve a few rows.
 
-Please note that `jupysql` and `memory_profiler` need to be installed. You can install them with `pip install jupysql memory_profiler` from your terminal or `!pip install jupysql memory_profiler` from this notebook.
-
 ```{code-cell} ipython3
 %load_ext autoreload
 %autoreload 2
@@ -93,16 +91,19 @@ SELECT COUNT(*) FROM "Track"
 
 Since we want to test plotting capabilities with a large database, we are going to create a new table by appending the original databse multiple times.
 
-For this, we will proceed to create a SQL template script that we will use  along Python to create a database generator. The SQL template will perform a union between the database with itself less than 500 times, because the [maximum number of terms in a compound SELECT statement is **500**](https://www.sqlite.org/limits.html). For our practical case, we will perform this union 50 times.
+For this, we will proceed to create a SQL template script that we will use  along Python to create a database generator. The SQL template will perform a union between the database with itself less than 500 times, because the [maximum number of terms in a compound SELECT statement is **500**](https://www.sqlite.org/limits.html). For our practical case, we will perform this union 15 times.
 
-With this, we will generate a table with ~175k rows, as we will see below.
+With this, we will generate a table with ~50k rows, as we will see below.
+
+> We invite you to try with a higher number, **why not 450?** <br>
+> _Just modify the range value from 15 to 450 in the next cell._
 
 ```{code-cell} ipython3
 %%writefile large-table-template.sql
 DROP TABLE IF EXISTS "TrackAll";
 
 CREATE TABLE "TrackAll" AS
-    {% for _ in range(50) %}
+    {% for _ in range(15) %}
         SELECT * FROM "Track"
         {% if not loop.last %}
         UNION ALL
@@ -129,7 +130,7 @@ We can now proceed to execute the Python generator. The Python script can be run
 %sql --file large-table.sql
 ```
 
-As we can see, the new table contains **175,150 rows**.
+As we can see, the new table contains **~50k rows**.
 
 +++
 
