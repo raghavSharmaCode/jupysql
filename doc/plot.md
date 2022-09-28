@@ -93,14 +93,16 @@ SELECT COUNT(*) FROM "Track"
 
 Since we want to test plotting capabilities with a large database, we are going to create a new table by appending the original databse multiple times.
 
-For this, we will proceed to create a SQL template script that we will use  along Python to create a database generator. The SQL template will perform a union between the database with itself 500 times, since the [maximum number of terms in a compound SELECT statement is **500**](https://www.sqlite.org/limits.html). in any case, this will generate a table with ~1.7 million rows, as we will see below.
+For this, we will proceed to create a SQL template script that we will use  along Python to create a database generator. The SQL template will perform a union between the database with itself less than 500 times, because the [maximum number of terms in a compound SELECT statement is **500**](https://www.sqlite.org/limits.html). 
+
+In any case, with this we will generate a table with ~1 million rows, as we will see below.
 
 ```{code-cell} ipython3
 %%writefile large-table-template.sql
 DROP TABLE IF EXISTS "TrackAll";
 
 CREATE TABLE "TrackAll" AS
-    {% for _ in range(500) %}
+    {% for _ in range(300) %}
         SELECT * FROM "Track"
         {% if not loop.last %}
         UNION ALL
@@ -127,7 +129,7 @@ We can now proceed to execute the Python generator. The Python script can be run
 %sql --file large-table.sql
 ```
 
-As we can see, the new table contains **~1.7 million rows**.
+As we can see, the new table contains **~1 million rows**.
 
 +++
 
