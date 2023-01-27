@@ -454,3 +454,53 @@ def test_autolimit(ip):
     ip.run_line_magic("config", "SqlMagic.autolimit = 1")
     result = runsql(ip, "SELECT * FROM test;")
     assert len(result) == 1
+
+
+@pytest.mark.parametrize(
+    "cmd, out",
+    [
+        [
+            "%sql --help",
+            "--help",
+        ],
+        [
+            "%sqlplot --help",
+            "--help",
+        ],
+        [
+            "%sqlrender --help",
+            "--help",
+        ],
+        [
+            "%sqlcmd columns --help",
+            "--help",
+        ],
+        [
+            "%sqlcmd tables --help",
+            "--help",
+        ],
+        [
+            "%sqlcmd --help",
+            "--help",
+        ],
+        [
+            "%sqlcmd unknown --help",
+            "--help",
+        ],
+    ],
+    ids=[
+        "sql",
+        "sqlplot",
+        "sqlrender",
+        "sqlcmd-columns",
+        "sqlcmd-tables",
+        "sqlcmd-root",
+        "sqlcmd-unknown-cmd",
+    ],
+)
+def test_help(ip, capsys, cmd, out):
+    result = ip.run_cell(cmd)
+
+    captured = capsys.readouterr()
+    assert out in captured.out
+    assert captured.err == ""
