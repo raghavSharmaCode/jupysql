@@ -114,4 +114,4 @@ WHERE x > -1
 
     # maptlotlib >= 3.7 has Axes but earlier Python
     # versions are not compatible
-    assert type(out.result).__name__ in {"Axes", "AxesPlot"}
+    assert type(out.result).__name__ in {"Axes", "AxesSubplot"}
