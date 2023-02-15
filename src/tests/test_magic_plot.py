@@ -112,4 +112,4 @@ WHERE x > -1
 
     out = ip.run_cell(cell)
 
-    assert type(out.result).__name__ == "AxesSubplot"
+    assert type(out.result).__name__ == "Axes"
