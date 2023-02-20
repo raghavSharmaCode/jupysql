@@ -12,6 +12,7 @@ parts:
     - file: csv
     - file: compose
     - file: user-guide/tables-columns
+    - file: user-guide/templating
     - file: plot-legacy
 
   - caption: Integrations
