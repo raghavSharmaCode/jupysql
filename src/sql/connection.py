@@ -199,7 +199,7 @@ class Connection:
         self.dialect = self.url.get_dialect()
         self.name = self.assign_name(engine)
         self.internal_connection = engine.connect()
-        self.connections[repr(self.url)] = self
+        self.connections[alias or repr(self.url)] = self
         self.connect_args = None
         self.alias = alias
         Connection.current = self
