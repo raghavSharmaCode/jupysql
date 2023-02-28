@@ -5,7 +5,6 @@ import sqlalchemy
 from sqlalchemy.engine import Engine
 from sqlalchemy.exc import NoSuchModuleError
 from IPython.core.error import UsageError
-import traceback
 import difflib
 
 PLOOMBER_SUPPORT_LINK_STR = (
