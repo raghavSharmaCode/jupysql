@@ -242,7 +242,7 @@ def boxplot(payload, table, column, *, orient="v", with_=None, conn=None):
     .. plot:: ../examples/plot_boxplot_many.py
     """
     if not conn:
-        conn = sql.connection.Connection.current.session
+        conn = sql.connection.Connection.current.internal_connection
 
     if sql.connection.Connection.current:
         payload[
@@ -361,7 +361,7 @@ def histogram(payload, table, column, bins, with_=None, conn=None):
 def _histogram(table, column, bins, with_=None, conn=None):
     """Compute bins and heights"""
     if not conn:
-        conn = sql.connection.Connection.current.session
+        conn = sql.connection.Connection.current.internal_connection
 
     # FIXME: we're computing all the with elements twice
     min_, max_ = _min_max(conn, table, column, with_=with_)
