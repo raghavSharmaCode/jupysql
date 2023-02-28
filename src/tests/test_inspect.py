@@ -19,6 +19,7 @@ def sample_db(tmp_empty):
 
     conn.internal_connection.execute("ATTACH DATABASE 'my.db' AS schema")
 
+
 @pytest.mark.parametrize(
     "function",
     [
