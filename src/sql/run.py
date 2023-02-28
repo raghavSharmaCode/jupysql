@@ -11,7 +11,6 @@ import sqlalchemy
 import sqlparse
 import sql.connection
 from .column_guesser import ColumnGuesserMixin
-import traceback
 
 try:
     from pgspecial.main import PGSpecial
