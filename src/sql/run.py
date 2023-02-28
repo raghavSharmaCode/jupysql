@@ -384,9 +384,6 @@ def _commit(conn, config):
             conn.internal_connection.execute("commit")
         except sqlalchemy.exc.OperationalError:
             pass  # not all engines can commit
-        except Exception as ex:
-            conn.internal_connection.rollback()
-            raise ex
 
 
 def run(conn, sql, config, user_namespace):
