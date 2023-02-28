@@ -1,7 +1,7 @@
 from ploomber_core.telemetry.telemetry import Telemetry
 
 try:
-    from importlib_metadata import version
+    from importlib.metadata import version
 except ModuleNotFoundError:
     from importlib_metadata import version
 
