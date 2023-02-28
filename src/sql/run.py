@@ -11,7 +11,6 @@ import sqlalchemy
 import sqlparse
 import sql.connection
 from .column_guesser import ColumnGuesserMixin
-import traceback
 
 try:
     from pgspecial.main import PGSpecial
@@ -387,7 +386,6 @@ def _commit(conn, config):
             pass  # not all engines can commit
         except Exception as ex:
             conn.internal_connection.rollback()
-            print(traceback.format_exc())
             raise ex
 
 
