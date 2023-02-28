@@ -29,6 +29,7 @@ def test_connection_name(mock_postgres):
 
     assert conn.name == "user@db"
 
+
 #
 # def test_alias(cleanup):
 #     print(list(Connection.connections))

@@ -301,7 +301,7 @@ class Connection:
         result = []
         for key in sorted(cls.connections):
             conn = cls.connections[key]
-            engine_url = conn.url # type: sqlalchemy.engine.url.URL
+            engine_url = conn.url  # type: sqlalchemy.engine.url.URL
 
             prefix = "* " if conn == cls.current else "  "
 

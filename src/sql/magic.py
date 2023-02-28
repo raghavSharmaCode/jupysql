@@ -383,7 +383,12 @@ class SqlMagic(Magics, Configurable):
 
         if_exists = "append" if append else "fail"
 
-        frame.to_sql(table_name, conn.internal_connection.engine, if_exists=if_exists, index=index)
+        frame.to_sql(
+            table_name,
+            conn.internal_connection.engine,
+            if_exists=if_exists,
+            index=index,
+        )
         return "Persisted %s" % table_name
 
 

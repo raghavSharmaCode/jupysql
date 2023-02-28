@@ -116,7 +116,9 @@ class ResultSet(list, ColumnGuesserMixin):
             else:
                 list.__init__(self, sqlaproxy.fetchall())
             self.field_names = unduplicate_field_names(self.keys)
-            self.pretty = PrettyTable(self.field_names, style=prettytable.__dict__[config.style.upper()])
+            self.pretty = PrettyTable(
+                self.field_names, style=prettytable.__dict__[config.style.upper()]
+            )
             # self.pretty.set_style(self.style)
         else:
             list.__init__(self, [])
