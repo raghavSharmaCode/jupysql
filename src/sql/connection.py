@@ -198,7 +198,7 @@ class Connection:
         self.url = engine.url
         self.dialect = self.url.get_dialect()
         self.name = self.assign_name(engine)
-        self.internal_connection = engine.connect()
+        self.session = engine.connect()
         self.connections[alias or repr(self.url)] = self
         self.connect_args = None
         self.alias = alias
@@ -331,7 +331,7 @@ class Connection:
             cls.connections.pop(descriptor)
         else:
             cls.connections.pop(str(conn.url))
-            conn.internal_connection.close()
+            conn.session.close()
 
     def _get_curr_connection_info(self):
         """Returns the dialect, driver, and database server version info"""
