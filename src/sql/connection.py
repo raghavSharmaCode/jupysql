@@ -78,7 +78,7 @@ def get_missing_package_suggestion_str(e):
         module_name, MISSING_PACKAGE_LIST_EXCEPT_MATCHERS.keys()
     )
     if close_matches:
-        return "Perhaps you meant to use driver the dialect: \"{}\"".format(
+        return 'Perhaps you meant to use driver the dialect: "{}"'.format(
             close_matches[0]
         )
     # Not found
@@ -351,9 +351,7 @@ class Connection:
             return None
 
         version = int(sqlalchemy.__version__.split(".")[0])
-        engine = (
-            self.current.metadata.bind if version < 2 else self.current
-        )
+        engine = self.current.metadata.bind if version < 2 else self.current
         return {
             "dialect": getattr(engine.dialect, "name", None),
             "driver": getattr(engine.dialect, "driver", None),
