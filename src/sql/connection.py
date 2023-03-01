@@ -197,9 +197,13 @@ class Connection:
     def __init__(self, engine, alias=None):
         self.url = engine.url
         self.dialect = self.url.get_dialect()
+
+        if sqlalchemy.__version__ < 2:
+            self.metadata = sqlalchemy.MetaData(bind=engine)
+
         self.name = self.assign_name(engine)
         self.session = engine.connect()
-        self.connections[alias or repr(self.url)] = self
+        self.connections[alias or (repr(self.url) if sqlalchemy.__version__ < 2 else repr(self.metadata.bind.url))]
         self.connect_args = None
         self.alias = alias
         Connection.current = self
@@ -300,7 +304,7 @@ class Connection:
         result = []
         for key in sorted(cls.connections):
             conn = cls.connections[key]
-            engine_url = conn.url  # type: sqlalchemy.engine.url.URL
+            engine_url = (conn.metadata.bind.url if sqlalchemy.__version__ < 2 else conn.url)
 
             prefix = "* " if conn == cls.current else "  "
 
@@ -337,7 +341,7 @@ class Connection:
         """Returns the dialect, driver, and database server version info"""
         if not self.current:
             return None
-        engine = self.current
+        engine = self.current.metadata.bind if sqlalchemy.__version__ < 2 else self.current
         return {
             "dialect": getattr(engine.dialect, "name", None),
             "driver": getattr(engine.dialect, "driver", None),
