@@ -205,7 +205,6 @@ class Connection:
 
         self.name = self.assign_name(engine)
         self.session = engine.connect()
-        repr(self.metadata.bind.url)
         self.connections[
             alias or (repr(self.metadata.bind.url) if version < 2 else repr(self.url))
         ]
@@ -351,8 +350,9 @@ class Connection:
         """Returns the dialect, driver, and database server version info"""
         if not self.current:
             return None
+        version = int(sqlalchemy.__version__.split(".")[0])
         engine = (
-            self.current.metadata.bind if sqlalchemy.__version__ < 2 else self.current
+            self.current.metadata.bind if version < 2 else self.current
         )
         return {
             "dialect": getattr(engine.dialect, "name", None),
