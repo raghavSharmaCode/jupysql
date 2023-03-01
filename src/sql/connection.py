@@ -207,7 +207,7 @@ class Connection:
         self.internal_connection = engine.connect()
         self.connections[
             alias or (repr(self.metadata.bind.url) if version < 2 else repr(self.url))
-        ]
+        ] = self
         self.connect_args = None
         self.alias = alias
         Connection.current = self
