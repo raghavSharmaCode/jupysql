@@ -198,7 +198,9 @@ class Connection:
         self.url = engine.url
         self.dialect = self.url.get_dialect()
 
-        if sqlalchemy.__version__ < 2:
+        version = int(sqlalchemy.__version__.split('.')[0])
+
+        if version < 2:
             self.metadata = sqlalchemy.MetaData(bind=engine)
 
         self.name = self.assign_name(engine)
@@ -208,7 +210,7 @@ class Connection:
             alias
             or (
                 repr(self.metadata.bind.url)
-                if sqlalchemy.__version__ < 2
+                if version < 2
                 else repr(self.url)
             )
         ]
@@ -312,8 +314,10 @@ class Connection:
         result = []
         for key in sorted(cls.connections):
             conn = cls.connections[key]
+
+            version = int(sqlalchemy.__version__.split(".")[0])
             engine_url = (
-                conn.metadata.bind.url if sqlalchemy.__version__ < 2 else conn.url
+                conn.metadata.bind.url if version < 2 else conn.url
             )
 
             prefix = "* " if conn == cls.current else "  "
