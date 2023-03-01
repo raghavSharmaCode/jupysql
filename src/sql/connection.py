@@ -198,7 +198,7 @@ class Connection:
         self.url = engine.url
         self.dialect = self.url.get_dialect()
 
-        version = int(sqlalchemy.__version__.split('.')[0])
+        version = int(sqlalchemy.__version__.split(".")[0])
 
         if version < 2:
             self.metadata = sqlalchemy.MetaData(bind=engine)
@@ -207,12 +207,7 @@ class Connection:
         self.session = engine.connect()
         repr(self.metadata.bind.url)
         self.connections[
-            alias
-            or (
-                repr(self.metadata.bind.url)
-                if version < 2
-                else repr(self.url)
-            )
+            alias or (repr(self.metadata.bind.url) if version < 2 else repr(self.url))
         ]
         self.connect_args = None
         self.alias = alias
@@ -316,9 +311,7 @@ class Connection:
             conn = cls.connections[key]
 
             version = int(sqlalchemy.__version__.split(".")[0])
-            engine_url = (
-                conn.metadata.bind.url if version < 2 else conn.url
-            )
+            engine_url = conn.metadata.bind.url if version < 2 else conn.url
 
             prefix = "* " if conn == cls.current else "  "
 
@@ -348,7 +341,10 @@ class Connection:
         if descriptor in cls.connections:
             cls.connections.pop(descriptor)
         else:
-            cls.connections.pop(str(conn.url))
+            version = int(sqlalchemy.__version__.split(".")[0])
+            cls.connections.pop(
+                str(conn.metadata.bind.url) if version < 2 else str(conn.url)
+            )
             conn.session.close()
 
     def _get_curr_connection_info(self):
