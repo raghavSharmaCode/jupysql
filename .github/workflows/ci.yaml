@@ -73,7 +73,7 @@ jobs:
       - name: Install dependencies
         run: |
 
-          pip install sqlalchemy<2
+          pip install "sqlalchemy<2"
           pip install ".[dev]"
 
       - name: Test with pytest
