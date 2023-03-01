@@ -387,7 +387,7 @@ class SqlMagic(Magics, Configurable):
 
         frame.to_sql(
             table_name,
-            conn.internal_connection.engine,
+            conn.session.engine,
             if_exists=if_exists,
             index=index,
         )

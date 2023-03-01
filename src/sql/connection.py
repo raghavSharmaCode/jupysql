@@ -7,6 +7,7 @@ from sqlalchemy.exc import NoSuchModuleError
 from IPython.core.error import UsageError
 import difflib
 
+IS_SQLALCHEMY_ONE = int(sqlalchemy.__version__.split(".")[0])  < 2
 PLOOMBER_SUPPORT_LINK_STR = (
     "For technical support: https://ploomber.io/community"
     "\nDocumentation: https://jupysql.ploomber.io/en/latest/connecting.html"
@@ -195,17 +196,10 @@ class Connection:
         return ModuleNotFoundError("test")
 
     def __init__(self, engine, alias=None):
-        self.url = engine.url
-        self.dialect = self.url.get_dialect()
-
-        version = int(sqlalchemy.__version__.split(".")[0])
-        if version < 2:
-            self.metadata = sqlalchemy.MetaData(bind=engine)
-
         self.name = self.assign_name(engine)
-        self.internal_connection = engine.connect()
+        self.session = engine.connect()
         self.connections[
-            alias or (repr(self.metadata.bind.url) if version < 2 else repr(self.url))
+            alias or (repr(sqlalchemy.MetaData(bind=engine).bind.url) if IS_SQLALCHEMY_ONE else repr(engine.url))
         ] = self
 
         self.connect_args = None
@@ -308,8 +302,7 @@ class Connection:
         result = []
         for key in sorted(cls.connections):
             conn = cls.connections[key]
-            version = int(sqlalchemy.__version__.split(".")[0])
-            engine_url = conn.metadata.bind.url if version < 2 else conn.url
+            engine_url = conn.metadata.bind.url if IS_SQLALCHEMY_ONE < 2 else conn.url
 
             prefix = "* " if conn == cls.current else "  "
 
@@ -339,19 +332,17 @@ class Connection:
         if descriptor in cls.connections:
             cls.connections.pop(descriptor)
         else:
-            version = int(sqlalchemy.__version__.split(".")[0])
             cls.connections.pop(
-                str(conn.metadata.bind.url) if version < 2 else str(conn.url)
+                str(conn.metadata.bind.url) if IS_SQLALCHEMY_ONE < 2 else str(conn.url)
             )
-            conn.internal_connection.close()
+            conn.session.close()
 
     def _get_curr_connection_info(self):
         """Returns the dialect, driver, and database server version info"""
         if not self.current:
             return None
 
-        version = int(sqlalchemy.__version__.split(".")[0])
-        engine = self.current.metadata.bind if version < 2 else self.current
+        engine = self.current.metadata.bind if IS_SQLALCHEMY_ONE else self.current
         return {
             "dialect": getattr(engine.dialect, "name", None),
             "driver": getattr(engine.dialect, "driver", None),
