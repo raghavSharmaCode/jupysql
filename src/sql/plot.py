@@ -242,7 +242,7 @@ def boxplot(payload, table, column, *, orient="v", with_=None, conn=None):
     .. plot:: ../examples/plot_boxplot_many.py
     """
     if not conn:
-        conn = sql.connection.Connection.current.session
+        conn = sql.connection.Connection.current.internal_connection
 
     if sql.connection.Connection.current:
         payload[

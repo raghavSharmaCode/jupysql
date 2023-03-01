@@ -204,7 +204,7 @@ class Connection:
             self.metadata = sqlalchemy.MetaData(bind=engine)
 
         self.name = self.assign_name(engine)
-        self.session = engine.connect()
+        self.internal_connection = engine.connect()
         self.connections[
             alias or (repr(self.metadata.bind.url) if version < 2 else repr(self.url))
         ]
@@ -344,7 +344,7 @@ class Connection:
             cls.connections.pop(
                 str(conn.metadata.bind.url) if version < 2 else str(conn.url)
             )
-            conn.session.close()
+            conn.internal_connection.close()
 
     def _get_curr_connection_info(self):
         """Returns the dialect, driver, and database server version info"""
