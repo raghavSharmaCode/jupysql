@@ -203,7 +203,8 @@ class Connection:
 
         self.name = self.assign_name(engine)
         self.session = engine.connect()
-        self.connections[alias or (repr(self.url) if sqlalchemy.__version__ < 2 else repr(self.metadata.bind.url))]
+        repr(self.metadata.bind.url)
+        self.connections[alias or (repr(self.metadata.bind.url) if sqlalchemy.__version__ < 2 else repr(self.url))]
         self.connect_args = None
         self.alias = alias
         Connection.current = self
