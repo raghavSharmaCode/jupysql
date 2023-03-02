@@ -1,9 +1,9 @@
 # CHANGELOG
 
 ## 0.6.1dev
+* Adds support for SQL Alchemy 2.0
 
 ## 0.6.0 (2023-02-27)
-
 * [API Change] Drops support for old versions of IPython (removed imports from `IPython.utils.traitlets`)
 * [Feature] Adds `%%config SqlMagic.autopolars = True` ([#138](https://github.com/ploomber/jupysql/issues/138))
 
