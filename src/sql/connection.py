@@ -349,7 +349,7 @@ class Connection:
             return None
 
         if IS_SQLALCHEMY_ONE:
-           metadata = sqlalchemy.MetaData(bind=self.engine)
+            metadata = sqlalchemy.MetaData(bind=self.engine)
 
         engine = metadata.bind if IS_SQLALCHEMY_ONE else self.current
         return {
