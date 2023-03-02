@@ -196,6 +196,7 @@ class Connection:
         return ModuleNotFoundError("test")
 
     def __init__(self, engine, alias=None):
+        self.engine = engine
         self.name = self.assign_name(engine)
         self.session = engine.connect()
         self.connections[
@@ -347,7 +348,10 @@ class Connection:
         if not self.current:
             return None
 
-        engine = self.current.metadata.bind if IS_SQLALCHEMY_ONE else self.current
+        if IS_SQLALCHEMY_ONE:
+           metadata = sqlalchemy.MetaData(bind=self.engine)
+
+        engine = metadata.bind if IS_SQLALCHEMY_ONE else self.current
         return {
             "dialect": getattr(engine.dialect, "name", None),
             "driver": getattr(engine.dialect, "driver", None),
