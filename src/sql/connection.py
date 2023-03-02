@@ -342,9 +342,10 @@ class Connection:
             )
             conn.session.close()
 
-    def _get_curr_connection_info(self):
+    @classmethod
+    def _get_curr_connection_info(cls):
         """Returns the dialect, driver, and database server version info"""
-        if not self.current:
+        if not cls.current:
             return None
 
         engine = self.current.metadata.bind if IS_SQLALCHEMY_ONE else self.current
