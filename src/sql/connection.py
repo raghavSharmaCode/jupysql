@@ -348,7 +348,7 @@ class Connection:
         if not cls.current:
             return None
 
-        engine = cls.current.metadata.bind if IS_SQLALCHEMY_ONE else cls.current
+        engine = self.current.metadata.bind if IS_SQLALCHEMY_ONE else self.current
         return {
             "dialect": getattr(engine.dialect, "name", None),
             "driver": getattr(engine.dialect, "driver", None),
