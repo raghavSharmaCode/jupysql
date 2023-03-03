@@ -43,7 +43,7 @@ jobs:
         run: |
           pytest --durations-min=5 --ignore=src/tests/integration
 
-  test-slalchemy-v1:
+  test-sqlalchemy-v1:
     strategy:
       matrix:
         python-version: ['3.11']
