@@ -7,7 +7,7 @@ from sqlalchemy.exc import NoSuchModuleError
 from IPython.core.error import UsageError
 import difflib
 
-IS_SQLALCHEMY_ONE = int(sqlalchemy.__version__.split(".")[0]) < 2
+IS_SQLALCHEMY_ONE = int(sqlalchemy.__version__.split(".")[0]) == 1
 PLOOMBER_SUPPORT_LINK_STR = (
     "For technical support: https://ploomber.io/community"
     "\nDocumentation: https://jupysql.ploomber.io/en/latest/connecting.html"
@@ -199,7 +199,7 @@ class Connection:
         self.url = engine.url
         self.name = self.assign_name(engine)
         self.dialect = self.url.get_dialect()
-        if IS_SQLALCHEMY_ONE < 2:
+        if IS_SQLALCHEMY_ONE:
             self.metadata = sqlalchemy.MetaData(bind=engine)
 
         self.session = engine.connect()
