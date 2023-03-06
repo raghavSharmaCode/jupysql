@@ -7,6 +7,7 @@ from IPython.core.magic import (
     line_magic,
     magics_class,
     needs_local_scope,
+    no_var_expand,
 )
 from IPython.core.magic_arguments import argument, magic_arguments, parse_argstring
 from sqlalchemy.exc import OperationalError, ProgrammingError, DatabaseError
@@ -18,6 +19,7 @@ from sql.store import store
 from sql.command import SQLCommand
 from sql.magic_plot import SqlPlotMagic
 from sql.magic_cmd import SqlCmdMagic
+
 
 from traitlets.config.configurable import Configurable
 from traitlets import Bool, Int, Unicode, observe
@@ -134,6 +136,7 @@ class SqlMagic(Magics, Configurable):
                 setattr(self, other, False)
                 print(f"Disabled '{other}' since '{change['name']}' was enabled.")
 
+    @no_var_expand
     @needs_local_scope
     @line_magic("sql")
     @cell_magic("sql")
@@ -248,6 +251,9 @@ class SqlMagic(Magics, Configurable):
 
         # %%sql {line}
         # {cell}
+
+        if local_ns is None:
+            local_ns = {}
 
         # save globals and locals so they can be referenced in bind vars
         user_ns = self.shell.user_ns.copy()

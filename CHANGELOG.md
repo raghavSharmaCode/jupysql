@@ -2,6 +2,16 @@
 
 ## 0.6.1dev
 * [Fix] Adds support for SQL Alchemy 2.0
+## 0.6.3dev
+
+## 0.6.2 (2023-03-05)
+
+* [Fix] Deprecation warning incorrectly displayed [#213](https://github.com/ploomber/jupysql/issues/213)
+
+## 0.6.1 (2023-03-02)
+
+* [Feature] Support new variable substitution using `{{variable}}` format ([#137](https://github.com/ploomber/jupysql/pull/137))
+* [Fix] Adds support for newer versions of prettytable
 
 ## 0.6.0 (2023-02-27)
 * [API Change] Drops support for old versions of IPython (removed imports from `IPython.utils.traitlets`)
