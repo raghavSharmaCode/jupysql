@@ -10,13 +10,14 @@ from IPython.core.magic import (
 from IPython.core.magic_arguments import argument, magic_arguments
 from IPython.core.error import UsageError
 from jinja2 import Template
+from sqlalchemy.engine import Engine
 
 try:
     from traitlets.config.configurable import Configurable
 except ImportError:
     from IPython.config.configurable import Configurable
 
-
+import sql.connection
 from sql import inspect
 import sql.run
 
@@ -81,18 +82,17 @@ class SqlCmdMagic(Magics, Configurable):
 
             template = Template(
                 """
-        SELECT "{{column}}"
+        SELECT *
         FROM "{{table}}"
         WHERE "{{column}}" < {{whislo}}
         OR  "{{column}}" > {{whishi}}
         """)
             bottom, top = args.within.split(",")
-            query = template.render(table=args.table, column=args.column, whislo=bottom, whishi=top)
-
-            user_ns = self.shell.user_ns.copy()
-            user_ns.update(local_ns)
-
-            result = sql.run.run(conn, sql, self, user_ns)
+            query = template.render(table=args.table, column=args.column, whislo=int(top), whishi=int(bottom))
+            print(query)
+            conn = sql.connection.Connection.current.session
+            res = conn.execute(query).fetchall()
+            print(res)
 
         else:
             raise UsageError(
