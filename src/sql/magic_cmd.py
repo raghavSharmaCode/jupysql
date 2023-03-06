@@ -9,7 +9,7 @@ from IPython.core.magic import (
 )
 from IPython.core.magic_arguments import argument, magic_arguments
 from IPython.core.error import UsageError
-
+from jinja2 import Template
 
 try:
     from traitlets.config.configurable import Configurable
@@ -18,7 +18,7 @@ except ImportError:
 
 
 from sql import inspect
-
+import sql.run
 
 class CmdParser(argparse.ArgumentParser):
     def exit(self, status=0, message=None):
@@ -78,7 +78,21 @@ class SqlCmdMagic(Magics, Configurable):
                 "-w", "--within", type=str, help="Whether it is within two numbers", required=False
             )
             args = parser.parse_args(others)
-            print(args)
+
+            template = Template(
+                """
+        SELECT "{{column}}"
+        FROM "{{table}}"
+        WHERE "{{column}}" < {{whislo}}
+        OR  "{{column}}" > {{whishi}}
+        """)
+            bottom, top = args.within.split(",")
+            query = template.render(table=args.table, column=args.column, whislo=bottom, whishi=top)
+
+            user_ns = self.shell.user_ns.copy()
+            user_ns.update(local_ns)
+
+            result = sql.run.run(conn, sql, self, user_ns)
 
         else:
             raise UsageError(
