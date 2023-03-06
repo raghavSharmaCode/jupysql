@@ -65,6 +65,21 @@ class SqlCmdMagic(Magics, Configurable):
 
             args = parser.parse_args(others)
             return inspect.get_columns(name=args.table, schema=args.schema)
+        elif cmd_name == "test":
+            parser = CmdParser()
+
+            parser.add_argument(
+                "-t", "--table", type=str, help="Table name", required=True
+            )
+            parser.add_argument(
+                "-c", "--column", type=str, help="Column name", required=False
+            )
+            parser.add_argument(
+                "-w", "--within", type=str, help="Whether it is within two numbers", required=False
+            )
+            args = parser.parse_args(others)
+            print(args)
+
         else:
             raise UsageError(
                 f"%sqlcmd has no command: {cmd_name!r}. "
