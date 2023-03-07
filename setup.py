@@ -20,6 +20,7 @@ install_requires = [
     "ipython>=1.0",
     "sqlalchemy",
     "sqlparse",
+    "sqlglot",
     "ipython-genutils>=0.1.0",
     "jinja2",
     "ploomber-core>=0.2.4",
@@ -35,6 +36,7 @@ DEV = [
     "pkgmt",
     "twine",
     # tests
+    "sqlglot",
     "duckdb",
     "duckdb-engine",
     # sql.plot module tests
