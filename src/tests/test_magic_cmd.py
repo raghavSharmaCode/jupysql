@@ -70,3 +70,6 @@ ATTACH DATABASE 'my.db' AS some_schema
     ).result._repr_html_()
 
     assert "some_number" in out
+def test_sql_cmd_test_magic(ip):
+    result = ip.run_cell('%sqlcmd test --table author --column year_of_death --less-than 2000').result
+    assert result is None
