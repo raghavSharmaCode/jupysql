@@ -114,11 +114,13 @@ class SqlCmdMagic(Magics, Configurable):
 
             if args.greater and args.greater_or_equal:
                 return ValueError(
-                    "You cannot use both greater and greater than or equal to arguments at the same time."
+                    "You cannot use both greater and greater "
+                    "than or equal to arguments at the same time."
                 )
             elif args.less_than and args.less_than_or_equal:
                 return ValueError(
-                    "You cannot use both less and less than or equal to arguments at the same time."
+                    "You cannot use both less and less than "
+                    "or equal to arguments at the same time."
                 )
 
             query = construct_string_query(args)
@@ -154,7 +156,6 @@ def construct_string_query(args):
     base_query = base_query.sql()
 
     if args.no_nulls:
-        not_null = condition(args.column + "=NULL")
         base_query = base_query + " AND " + args.column + " IS NOT NULL"
 
     return base_query
