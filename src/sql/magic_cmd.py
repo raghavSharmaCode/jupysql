@@ -111,7 +111,6 @@ class SqlCmdMagic(Magics, Configurable):
             )
 
             args = parser.parse_args(others)
-
             if args.greater and args.greater_or_equal:
                 return ValueError(
                     "You cannot use both greater and greater "
@@ -126,11 +125,11 @@ class SqlCmdMagic(Magics, Configurable):
             query = construct_string_query(args)
             conn = sql.connection.Connection.current.session
             res = conn.execute(query).fetchall()
-
             if args.no_nulls and len(res) > 0:
                 raise ValueError(
                     "Specified column {} has null values present.".format(args.column)
                 )
+            return res
         else:
             raise UsageError(
                 f"%sqlcmd has no command: {cmd_name!r}. "
@@ -140,7 +139,7 @@ class SqlCmdMagic(Magics, Configurable):
 
 def construct_string_query(args):
     base_query = select("*").from_(args.table)
-
+    print(base_query)
     if args.greater:
         where = condition(args.column + ">" + args.greater)
         base_query = base_query.where(where)
@@ -157,5 +156,5 @@ def construct_string_query(args):
 
     if args.no_nulls:
         base_query = base_query + " AND " + args.column + " IS NOT NULL"
-
+    print(base_query)
     return base_query
