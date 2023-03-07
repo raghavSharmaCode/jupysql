@@ -36,7 +36,6 @@ DEV = [
     "pkgmt",
     "twine",
     # tests
-    "sqlglot",
     "duckdb",
     "duckdb-engine",
     # sql.plot module tests
