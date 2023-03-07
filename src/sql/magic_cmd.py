@@ -10,6 +10,7 @@ from IPython.core.magic import (
 from IPython.core.magic_arguments import argument, magic_arguments
 from IPython.core.error import UsageError
 from sqlglot import select, condition
+
 try:
     from traitlets.config.configurable import Configurable
 except ImportError:
@@ -18,6 +19,7 @@ except ImportError:
 import sql.connection
 from sql import inspect
 import sql.run
+
 
 class CmdParser(argparse.ArgumentParser):
     def exit(self, status=0, message=None):
@@ -74,16 +76,32 @@ class SqlCmdMagic(Magics, Configurable):
                 "-c", "--column", type=str, help="Column name", required=False
             )
             parser.add_argument(
-                "-w", "--within", type=str, help="Whether it is within two numbers", required=False
+                "-w",
+                "--within",
+                type=str,
+                help="Whether it is within two numbers",
+                required=False,
             )
             parser.add_argument(
-                "-sg", "--strictly-greater-than", type=str, help="Greater than a certain number.", required=False
+                "-sg",
+                "--strictly-greater-than",
+                type=str,
+                help="Greater than a certain number.",
+                required=False,
             )
             parser.add_argument(
-                "-sl", "--strictly-less-than", type=str, help="Less than a certain number.", required=False
+                "-sl",
+                "--strictly-less-than",
+                type=str,
+                help="Less than a certain number.",
+                required=False,
             )
             parser.add_argument(
-                "-nn", "--no-nulls", help="Returns rows in specified column that are not null.", action='store_false')
+                "-nn",
+                "--no-nulls",
+                help="Returns rows in specified column that are not null.",
+                action="store_false",
+            )
 
             args = parser.parse_args(others)
             query = construct_string_query(args)
@@ -95,6 +113,7 @@ class SqlCmdMagic(Magics, Configurable):
                 f"%sqlcmd has no command: {cmd_name!r}. "
                 "Valid commands are: 'tables', 'columns'"
             )
+
 
 def construct_string_query(args):
     base_query = select("*").from_(args.table)
@@ -111,6 +130,4 @@ def construct_string_query(args):
     if args.no_nulls:
         where = condition("IS NOT NULL")
         base_query = base_query.where(where)
-
     return base_query.sql()
-
