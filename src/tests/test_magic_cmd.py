@@ -87,6 +87,6 @@ def test_sql_cmd_magic_dos(ip):
         "%sqlcmd test --table author --column year_of_death "
         "--less_than_or_equal 1956 --greater_or_equal 1616"
     ).result
-    assert len(result == 2)
+    assert len(result) == 2
     assert "less_than_or_equal" in result
     assert "greater_or_equal" in result
