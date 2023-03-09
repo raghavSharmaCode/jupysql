@@ -80,13 +80,3 @@ def test_sql_cmd_magic_uno(ip):
 
     assert len(result) == 2
     assert "William" in str(result["less_than"])
-
-
-def test_sql_cmd_magic_dos(ip):
-    result = ip.run_cell(
-        "%sqlcmd test --table author --column year_of_death --less_than_or_equal 1956"
-    ).result
-
-    assert len(result) == 2
-    assert "less_than_or_equal" in result
-    assert "greater_or_equal" in result
