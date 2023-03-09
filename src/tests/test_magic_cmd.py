@@ -79,7 +79,7 @@ def test_sql_cmd_magic_uno(ip):
     ).result
 
     assert len(result) == 2
-    assert "William" in result["less_than"]
+    assert "William" in str(result["less_than"])
 
 
 def test_sql_cmd_magic_dos(ip):
