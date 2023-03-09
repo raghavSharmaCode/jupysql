@@ -122,39 +122,68 @@ class SqlCmdMagic(Magics, Configurable):
                     "or equal to arguments at the same time."
                 )
 
-            query = construct_string_query(args)
             conn = sql.connection.Connection.current.session
-            res = conn.execute(query).fetchall()
-            if args.no_nulls and len(res) > 0:
-                raise ValueError(
-                    "Specified column {} has null values present.".format(args.column)
+            result_dict = run_each_individually(args, conn)
+
+            if len(result_dict.keys()):
+                print(
+                    "Test failed. Here are samples of the failures "
+                    "from your data: "
+                    "\n ----------------------------"
+                    "---------------------------------- \n"
                 )
-            return res
-        else:
-            raise UsageError(
-                f"%sqlcmd has no command: {cmd_name!r}. "
-                "Valid commands are: 'tables', 'columns'"
-            )
+                for key in result_dict:
+                    print(str(key) + ": " + str(result_dict[key]) + "\n")
+                raise ValueError()
+            else:
+                print("All requirements were met. Test was succesful.")
+                return True
+
+        raise UsageError(
+            f"%sqlcmd has no command: {cmd_name!r}. "
+            "Valid commands are: 'tables', 'columns'"
+        )
 
 
-def construct_string_query(args):
+def run_each_individually(args, conn):
     base_query = select("*").from_(args.table)
-    print(base_query)
+    storage = {}
+
     if args.greater:
         where = condition(args.column + ">" + args.greater)
-        base_query = base_query.where(where)
+        current_query = base_query.where(where).sql()
+
+        res = conn.execute(current_query).fetchone()
+
+        if res is not None:
+            storage["greater"] = res
     if args.greater_or_equal:
-        where = condition(args.column + ">=" + args.greater_or_equal)
-        base_query = base_query.where(where)
-    if args.less_than:
-        where = condition(args.column + "<" + args.less_than)
-        base_query = base_query.where(where)
+        where = condition(args.column + ">=") + args.greater_or_equal
+
+        current_query = base_query.where(where).sql()
+
+        res = conn.execute(current_query).fetchone()
+        if res is not None:
+            storage["greater_or_equal"] = res
     if args.less_than_or_equal:
         where = condition(args.column + "<=" + args.less_than_or_equal)
-        base_query = base_query.where(where)
-    base_query = base_query.sql()
+        current_query = base_query.where(where).sql()
 
+        res = conn.execute(current_query).fetchone()
+        if res is not None:
+            storage["less_than_or_equal"] = res
+    if args.less_than:
+        where = condition(args.column + "<" + args.less_than)
+        current_query = base_query.where(where).sql()
+
+        res = conn.execute(current_query).fetchone()
+        if res is not None:
+            storage["less_than"] = res
     if args.no_nulls:
-        base_query = base_query + " AND " + args.column + " IS NOT NULL"
-    print(base_query)
-    return base_query
+        current_query = base_query.sql() + " WHERE " + args.column + " IS NOT NULL"
+
+        res = conn.execute(current_query).fetchone()
+        if res is not None:
+            storage["null"] = res
+
+    return storage
