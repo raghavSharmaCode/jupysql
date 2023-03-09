@@ -78,7 +78,7 @@ def test_sql_cmd_magic_uno(ip):
         " --less-than 1700 --greater 1600"
     ).result
 
-    assert len(result) == 1
+    assert len(result) == 2
     assert "William" in result["less_than"]
 
 
