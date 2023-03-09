@@ -70,3 +70,23 @@ ATTACH DATABASE 'my.db' AS some_schema
     ).result._repr_html_()
 
     assert "some_number" in out
+
+
+def test_sql_cmd_magic_uno(ip):
+    result = ip.run_cell(
+        "%sqlcmd test --table author --column year_of_death"
+        " --less-than 1700 --greater 1600"
+    ).result
+
+    assert len(result) == 1
+    assert "William" in result["less_than"]
+
+
+def test_sql_cmd_magic_dos(ip):
+    result = ip.run_cell(
+        "%sqlcmd test --table author --column year_of_death "
+        "--less_than_or_equal 1956 --greater_or_equal 1616"
+    ).result
+    assert len(result == 2)
+    assert "less_than_or_equal" in result
+    assert "greater_or_equal" in result

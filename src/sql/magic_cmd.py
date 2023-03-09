@@ -127,14 +127,9 @@ class SqlCmdMagic(Magics, Configurable):
 
             if len(result_dict.keys()):
                 print(
-                    "Test failed. Here are samples of the failures "
-                    "from your data: "
-                    "\n ----------------------------"
-                    "---------------------------------- \n"
+                    "Test failed. Returned are samples of the failures from your data:"
                 )
-                for key in result_dict:
-                    print(str(key) + ": " + str(result_dict[key]) + "\n")
-                raise ValueError()
+                return result_dict
             else:
                 print("All requirements were met. Test was succesful.")
                 return True
