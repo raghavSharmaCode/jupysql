@@ -153,7 +153,7 @@ def run_each_individually(args, conn):
         if res is not None:
             storage["greater"] = res
     if args.greater_or_equal:
-        where = condition(args.column + ">=") + args.greater_or_equal
+        where = condition(args.column + ">=" + args.greater_or_equal)
 
         current_query = base_query.where(where).sql()
 
