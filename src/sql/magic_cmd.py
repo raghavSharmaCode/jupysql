@@ -175,8 +175,7 @@ def run_each_individually(args, conn):
         if res is not None:
             storage["less_than"] = res
     if args.no_nulls:
-        current_query = base_query.sql() + " WHERE " + args.column + " IS NOT NULL"
-
+        current_query = base_query.sql() + " WHERE " + args.column + " IS NULL"
         res = conn.execute(current_query).fetchone()
         if res is not None:
             storage["null"] = res
