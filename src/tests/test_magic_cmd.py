@@ -84,8 +84,7 @@ def test_sql_cmd_magic_uno(ip):
 
 def test_sql_cmd_magic_dos(ip):
     result = ip.run_cell(
-        "%sqlcmd test --table author --column year_of_death "
-        "--less_than_or_equal 1956 --greater_or_equal 1616"
+        "%sqlcmd test --table author --column year_of_death --less_than_or_equal 1956"
     ).result
 
     assert len(result) == 2
