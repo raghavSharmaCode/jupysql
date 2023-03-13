@@ -23,6 +23,10 @@ myst:
 ![syntax](../static/syntax-highlighting-working.png)
 
 ## Introduction
+In this short guide we will cover the basics of ETLs and Jupysql and how to perform 
+ETLs through JupySQL and  scheduling a full ETL notebook via GitHub actions.
+
+#### But first, what is an ETL?
 
 `ETL` (Extract, Transform, Load) is a crucial process for data analytics and business intelligence. 
 It involves extracting data from various sources, transforming it into a structured format, 
@@ -30,7 +34,7 @@ and loading it into a database or data warehouse.
 ETLs are an essential part of any data integration process, and they help businesses 
 to make informed decisions based on their data.
 
-In this blog, we will explore how to perform ETLs through JupySQL. 
+#### Why JupySQL?
 JupySQL is a powerful tool that allows you to interact with databases using 
 SQL queries directly in Jupyter notebooks. We will start by discussing the importance 
 of ETLs, followed by a brief introduction to JupySQL. 
@@ -81,8 +85,8 @@ Once installed, you can load the extension in Jupyter notebooks using the follow
 
 After loading the extension, you can connect to a database using the following command:
 
-```{code-cell} ipython3
-%sql dialect://username:password@host:port/database
+```sh
+#%sql dialect://username:password@host:port/database
 ```
 
 
