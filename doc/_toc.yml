@@ -41,6 +41,7 @@ parts:
     - file: howto/postgres-connect
     - file: howto/json
     - file: howto/syntax-highlighting
+    - file: howto/etl
 
   - caption: Community
     chapters:
