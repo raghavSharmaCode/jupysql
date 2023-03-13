@@ -112,7 +112,7 @@ To extract data using JupySQL, we need to connect to the source database and exe
 a query to retrieve the data. For example, to extract data from a MySQL database, 
 we can use the following command:
 
-```{code-cell} ipython3
+```python
 %sql mysql://username:password@host:port/database
 data = %sql SELECT * FROM mytable
 ```
@@ -147,7 +147,7 @@ For example, you can use the rename method to rename columns, the dropna method 
 remove missing values, and the astype method to convert data types.
 
 Here's an example of how to use Pandas to transform data:
-```{code-cell} ipython3
+```python
 # Rename columns
 data = data.rename(columns={'old_column_name': 'new_column_name'})
 
@@ -165,12 +165,11 @@ monthly_sales = data.groupby(['year', 'month'])['sales'].sum()
 
 # Combine data
 merged_data = pd.merge(data1, data2, on='key_column')
-
 ```
 
 **TODO**: In our example we'll use a simple transformation, cleaning NAs and renaming a column.
 
-```{code-cell} ipython3
+```python
 # Rename columns
 data = data.rename(columns={'old_column_name': 'new_column_name'})
 
@@ -185,7 +184,7 @@ data warehouse. We can use ipython-sql to connect to the destination database
 and execute SQL queries to load the data. For example, to load data into a PostgreSQL 
 database, we can use the following command:
 
-```{code-cell} ipython3
+```python
 %sql postgresql://username:password@host:port/database
 %sql DROP TABLE IF EXISTS mytable;
 %sql CREATE TABLE mytable (column1 datatype1, column2 datatype2, ...);
