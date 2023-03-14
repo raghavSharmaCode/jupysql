@@ -144,6 +144,8 @@ def test_telemetry_execute_command_has_connection_info(
             },
         },
     )
+
+
 def test_sql_cmd_magic_uno(ip):
     result = ip.run_cell(
         "%sqlcmd test --table author --column year_of_death"
