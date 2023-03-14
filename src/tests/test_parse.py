@@ -185,7 +185,7 @@ def complete_with_defaults(mapping):
         "creator": None,
         "section": None,
         "persist": False,
-        "persist-replace": False,
+        "persist_replace": False,
         "no_index": False,
         "append": False,
         "connection_arguments": None,
