@@ -15,7 +15,7 @@
 * [Fix] Displaying variable substitution warning only when the variable to expand exists in the user's namespace
 
 ## 0.6.2 (2023-03-05)
-
+* [Feature] Adds sql magic test to list of possible magics to test datasets
 * [Fix] Deprecation warning incorrectly displayed [#213](https://github.com/ploomber/jupysql/issues/213)
 
 ## 0.6.1 (2023-03-02)
