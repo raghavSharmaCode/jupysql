@@ -19,7 +19,7 @@ except ModuleNotFoundError:
 from sql.store import store
 import sql.connection
 from sql.telemetry import telemetry
-
+import sqlalchemy
 
 def _summary_stats(con, table, column, with_=None):
     """Compute percentiles and mean for boxplot"""
@@ -377,7 +377,7 @@ order by 1;
     if with_:
         query = str(store.render(query, with_=with_))
 
-    data = conn.execute(query).fetchall()
+    data = conn.execute(sqlalchemy.sql.text(query)).fetchall()
     bin_, height = zip(*data)
 
     if bin_[0] is None:
