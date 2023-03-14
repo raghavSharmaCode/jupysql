@@ -311,7 +311,14 @@ class SqlMagic(Magics, Configurable):
             "connection_info"
         ] = sql.connection.Connection._get_curr_connection_info()
         if args.persist_replace:
-            return self._persist_dataframe(command.sql, conn, user_ns, append=False, index=not args.no_index, replace=True )
+            return self._persist_dataframe(
+                command.sql,
+                conn,
+                user_ns,
+                append=False,
+                index=not args.no_index,
+                replace=True,
+            )
         if args.persist:
             return self._persist_dataframe(
                 command.sql, conn, user_ns, append=False, index=not args.no_index
@@ -378,7 +385,9 @@ class SqlMagic(Magics, Configurable):
     legal_sql_identifier = re.compile(r"^[A-Za-z0-9#_$]+")
 
     @modify_exceptions
-    def _persist_dataframe(self, raw, conn, user_ns, append=False, index=True, replace=False):
+    def _persist_dataframe(
+        self, raw, conn, user_ns, append=False, index=True, replace=False
+    ):
         """Implements PERSIST, which writes a DataFrame to the RDBMS"""
         if not DataFrame:
             raise ImportError("Must `pip install pandas` to use DataFrames")
@@ -403,11 +412,11 @@ class SqlMagic(Magics, Configurable):
             raise ValueError("You cannot both replace and append to a dataframe.")
 
         if replace:
-            if_exists = 'replace'
+            if_exists = "replace"
         elif append:
-            if_exists = 'append'
+            if_exists = "append"
         else:
-            if_exists = 'fail'
+            if_exists = "fail"
 
         frame.to_sql(table_name, conn.session.engine, if_exists=if_exists, index=index)
         return "Persisted %s" % table_name
