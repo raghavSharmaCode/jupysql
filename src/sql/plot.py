@@ -21,7 +21,6 @@ import sql.connection
 from sql.telemetry import telemetry
 
 
-
 def _summary_stats(con, table, column, with_=None):
     """Compute percentiles and mean for boxplot"""
     template = Template(
