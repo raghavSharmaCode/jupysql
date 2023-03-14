@@ -6,6 +6,7 @@ from functools import partial
 from sql import inspect, connection
 import sqlalchemy
 
+
 @pytest.fixture
 def sample_db(tmp_empty):
     conn = connection.Connection.from_connect_str("sqlite://")
