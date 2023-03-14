@@ -107,6 +107,13 @@ def test_persist(ip):
     persisted = runsql(ip, "SELECT * FROM results_dframe")
     assert persisted == [(0, 1, "foo"), (1, 2, "bar")]
 
+def test_persist_replace(ip):
+    runsql(ip,)
+    ip.run_cell("results = %sql SELECT * FROM test;")
+    ip.run_cell("results_dframe = results.DataFrame()")
+    ip.run_cell("%sql --persist sqlite:// results_dframe")
+
+    ip.run_cell("%sql --persist sqlite:// results_dframe")
 
 def test_persist_no_index(ip):
     runsql(ip, "")
