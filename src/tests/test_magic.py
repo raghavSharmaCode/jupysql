@@ -110,7 +110,7 @@ def test_persist(ip):
 
 def test_persist_replace(ip):
     runsql(
-        ip,
+        ip, ""
     )
     ip.run_cell("results = %sql SELECT * FROM test;")
     ip.run_cell("results_dframe = results.DataFrame()")
