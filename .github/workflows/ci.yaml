@@ -37,11 +37,12 @@ jobs:
           # check package is importable
           python -c "import sql"
           pip install ".[dev]"
-
+          pip install sqlalchemy -U
 
       - name: Test with pytest
         run: |
           pytest --durations-min=5 --ignore=src/tests/integration
+          python -c 'import sqlalchemy; assert sqlalchemy.__version__.split(".")[0] == 2'
 
   test-sqlalchemy-v1:
     strategy:
