@@ -19,7 +19,7 @@ except ModuleNotFoundError:
 from sql.store import store
 import sql.connection
 from sql.telemetry import telemetry
-
+import sqlalchemy
 
 def _summary_stats(con, table, column, with_=None):
     """Compute percentiles and mean for boxplot"""
@@ -39,7 +39,7 @@ FROM "{{table}}"
     if with_:
         query = str(store.render(query, with_=with_))
 
-    values = con.execute(query).fetchone()
+    values = con.execute(sqlalchemy.sql.text(query)).fetchone()
     keys = ["q1", "med", "q3", "mean", "N"]
     return {k: float(v) for k, v in zip(keys, values)}
 
@@ -61,7 +61,7 @@ FROM (
     if with_:
         query = str(store.render(query, with_=with_))
 
-    values = con.execute(query).fetchone()
+    values = con.execute(sqlalchemy.sql.text(query)).fetchone()
     keys = ["N", "wiskhi_max"]
     return {k: float(v) for k, v in zip(keys, values)}
 
@@ -83,7 +83,7 @@ FROM (
     if with_:
         query = str(store.render(query, with_=with_))
 
-    values = con.execute(query).fetchone()
+    values = con.execute(sqlalchemy.sql.text(query)).fetchone()
     keys = ["N", "wisklo_min"]
     return {k: float(v) for k, v in zip(keys, values)}
 
@@ -101,7 +101,7 @@ FROM "{{table}}"
     if with_:
         query = str(store.render(query, with_=with_))
 
-    values = con.execute(query).fetchone()[0]
+    values = con.execute(sqlalchemy.sql.text(query)).fetchone()[0]
     return values
 
 
@@ -119,7 +119,7 @@ OR  "{{column}}" > {{whishi}}
     if with_:
         query = str(store.render(query, with_=with_))
 
-    results = [float(n[0]) for n in con.execute(query).fetchall()]
+    results = [float(n[0]) for n in con.execute(sqlalchemy.sql.text(query)).fetchall()]
     return results
 
 
@@ -281,7 +281,7 @@ FROM "{{table}}"
     if with_:
         query = str(store.render(query, with_=with_))
 
-    min_, max_ = con.execute(query).fetchone()
+    min_, max_ = con.execute(sqlalchemy.sql.text(query)).fetchone()
     return min_, max_
 
 
@@ -377,7 +377,7 @@ order by 1;
     if with_:
         query = str(store.render(query, with_=with_))
 
-    data = conn.execute(query).fetchall()
+    data = conn.execute(sqlalchemy.sql.text(query)).fetchall()
     bin_, height = zip(*data)
 
     if bin_[0] is None:
