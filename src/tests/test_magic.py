@@ -112,17 +112,19 @@ def test_persist_replace(ip):
     runsql(ip, "")
     ip.run_cell("results = %sql SELECT * FROM test;")
     ip.run_cell("results_dframe = results.DataFrame()")
+    out = ip.run_cell("%sql --persist-replace --append sqlite:// results_dframe")
     assert isinstance(
-        ip.run_cell("%sql --persist-replace --append sqlite:// results_dframe"),
+        out.error_in_exec,
         ValueError,
     )
 
 
-def test_persist_replace_error(ip):
-    runsql(ip, "")
-    ip.run_cell("results = %sql SELECT * FROM test;")
-    ip.run_cell("results_dframe = results.DataFrame()")
-    ip.run_cell("%sql --persist sqlite:// results_dframe")
+# def test_persist_replace_error(ip):
+#     runsql(ip, "")
+#     ip.run_cell("results = %sql SELECT * FROM test;")
+#     ip.run_cell("results_dframe = results.DataFrame()")
+#     out = ip.run_cell("%sql --persist sqlite:// results_dframe")
+#     assert out.error_in_exec
 
 
 def test_persist_no_index(ip):

@@ -310,6 +310,10 @@ class SqlMagic(Magics, Configurable):
         payload[
             "connection_info"
         ] = sql.connection.Connection._get_curr_connection_info()
+
+        if args.persist_replace and args.append:
+            raise ValueError("You cannot both replace and append to a dataframe.")
+
         if args.persist_replace:
             return self._persist_dataframe(
                 command.sql,
@@ -407,9 +411,6 @@ class SqlMagic(Magics, Configurable):
         # Make a suitable name for the resulting database table
         table_name = frame_name.lower()
         table_name = self.legal_sql_identifier.search(table_name).group(0)
-
-        if replace and append:
-            raise ValueError("You cannot both replace and append to a dataframe.")
 
         if replace:
             if_exists = "replace"
