@@ -116,7 +116,7 @@ def test_persist_replace(ip):
     ip.run_cell("results_dframe = results.DataFrame()")
     ip.run_cell("%sql --persist sqlite:// results_dframe")
 
-    ip.run_cell("%sql --persist sqlite:// results_dframe")
+    ip.run_cell("%sql --persist-replace sqlite:// results_dframe")
 
 
 def test_persist_no_index(ip):
