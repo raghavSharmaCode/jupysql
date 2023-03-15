@@ -109,12 +109,13 @@ def test_persist(ip):
 
 
 def test_persist_replace(ip):
-    runsql(
-        ip, ""
-    )
+    runsql(ip, "")
     ip.run_cell("results = %sql SELECT * FROM test;")
     ip.run_cell("results_dframe = results.DataFrame()")
-    assert isinstance(ip.run_cell("%sql --persist-replace --append sqlite:// results_dframe"), ValueError)
+    assert isinstance(
+        ip.run_cell("%sql --persist-replace --append sqlite:// results_dframe"),
+        ValueError,
+    )
 
 
 def test_persist_replace_error(ip):
