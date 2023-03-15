@@ -118,6 +118,7 @@ def test_persist_replace(ip):
         ValueError,
     )
 
+
 def test_persist_replace_no_error(ip):
     runsql(ip, "")
     ip.run_cell("results = %sql SELECT * FROM test;")
@@ -126,6 +127,7 @@ def test_persist_replace_no_error(ip):
 
     out = ip.run_cell("%sql --persist-replace sqlite:// results_dframe")
     assert out.error_in_exec is None
+
 
 def test_persist_normal_error(ip):
     runsql(ip, "")
