@@ -32,6 +32,9 @@ myst:
 
 ``-p`` / ``--persist``
     Create a table name in the database from the named DataFrame ([example](#create-table))
+    
+``-P`` / ``--persist-replace``
+    Replace named table with new dataframe ([example](#create-table))
 
 ``--append``
     Like ``--persist``, but appends to the table if it already exists ([example](#append-to-table))
