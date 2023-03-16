@@ -2,6 +2,7 @@
 
 ## 0.6.5dev
 
+* [Feature] Adds sql magic test to list of possible magics to test datasets into ## 0.6.5dev
 * [Doc] User guide on querying Github API with DuckDB and JupySQL
 * [Fix] Addresses enable AUTOCOMMIT config issue in PostgreSQL (#90)
 
@@ -15,7 +16,6 @@
 * [Fix] Displaying variable substitution warning only when the variable to expand exists in the user's namespace
 
 ## 0.6.2 (2023-03-05)
-* [Feature] Adds sql magic test to list of possible magics to test datasets
 * [Fix] Deprecation warning incorrectly displayed [#213](https://github.com/ploomber/jupysql/issues/213)
 
 ## 0.6.1 (2023-03-02)
