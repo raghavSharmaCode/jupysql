@@ -2,6 +2,7 @@
 
 ## 0.6.5dev
 
+* [Feature] Adds sql magic test to list of possible magics to test datasets
 * [Doc] User guide on querying Github API with DuckDB and JupySQL
 * [Fix] Addresses enable AUTOCOMMIT config issue in PostgreSQL (#90)
 
