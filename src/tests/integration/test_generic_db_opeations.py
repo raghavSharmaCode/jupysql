@@ -144,6 +144,8 @@ def test_telemetry_execute_command_has_connection_info(
             },
         },
     )
+
+
 @pytest.mark.parametrize(
     "ip_with_dynamic_db",
     [

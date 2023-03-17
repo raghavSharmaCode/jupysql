@@ -20,6 +20,7 @@ import sql.connection
 from sql import inspect
 import sql.run
 
+
 class CmdParser(argparse.ArgumentParser):
     def exit(self, status=0, message=None):
         if message:
@@ -138,46 +139,47 @@ class SqlCmdMagic(Magics, Configurable):
             "Valid commands are: 'tables', 'columns'"
         )
 
-    def run_each_individually(args, conn):
-        base_query = select("*").from_(args.table)
-        storage = {}
 
-        if args.greater:
-            where = condition(args.column + ">" + args.greater)
-            current_query = base_query.where(where).sql()
+def run_each_individually(args, conn):
+    base_query = select("*").from_(args.table)
+    storage = {}
 
-            res = conn.execute(current_query).fetchone()
+    if args.greater:
+        where = condition(args.column + ">" + args.greater)
+        current_query = base_query.where(where).sql()
 
-            if res is not None:
-                storage["greater"] = res
-        if args.greater_or_equal:
-            where = condition(args.column + ">=" + args.greater_or_equal)
+        res = conn.execute(current_query).fetchone()
 
-            current_query = base_query.where(where).sql()
+        if res is not None:
+            storage["greater"] = res
+    if args.greater_or_equal:
+        where = condition(args.column + ">=" + args.greater_or_equal)
 
-            res = conn.execute(current_query).fetchone()
-            if res is not None:
-                storage["greater_or_equal"] = res
-        if args.less_than_or_equal:
-            where = condition(args.column + "<=" + args.less_than_or_equal)
-            current_query = base_query.where(where).sql()
+        current_query = base_query.where(where).sql()
 
-            res = conn.execute(current_query).fetchone()
-            if res is not None:
-                storage["less_than_or_equal"] = res
-        if args.less_than:
-            where = condition(args.column + "<" + args.less_than)
-            current_query = base_query.where(where).sql()
+        res = conn.execute(current_query).fetchone()
+        if res is not None:
+            storage["greater_or_equal"] = res
+    if args.less_than_or_equal:
+        where = condition(args.column + "<=" + args.less_than_or_equal)
+        current_query = base_query.where(where).sql()
 
-            res = conn.execute(current_query).fetchone()
-            if res is not None:
-                storage["less_than"] = res
-        if args.no_nulls:
-            where = condition("{} is NULL".format(args.column))
-            current_query = base_query.where(where).sql()
+        res = conn.execute(current_query).fetchone()
+        if res is not None:
+            storage["less_than_or_equal"] = res
+    if args.less_than:
+        where = condition(args.column + "<" + args.less_than)
+        current_query = base_query.where(where).sql()
 
-            res = conn.execute(current_query).fetchone()
-            if res is not None:
-                storage["null"] = res
+        res = conn.execute(current_query).fetchone()
+        if res is not None:
+            storage["less_than"] = res
+    if args.no_nulls:
+        where = condition("{} is NULL".format(args.column))
+        current_query = base_query.where(where).sql()
 
-        return storage
+        res = conn.execute(current_query).fetchone()
+        if res is not None:
+            storage["null"] = res
+
+    return storage
