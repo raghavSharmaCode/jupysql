@@ -4,7 +4,7 @@
 
 * [Doc] User guide on querying Github API with DuckDB and JupySQL
 * [Fix] Addresses enable AUTOCOMMIT config issue in PostgreSQL (#90)
-* [Feature] Add persist-replace argument to save DataFrames that already exist
+* [API Change] Add persist-replace argument to save DataFrames that already exist
 ## 0.6.4 (2023-03-12)
 
 * [Fix] Adds support for SQL Alchemy 2.0
