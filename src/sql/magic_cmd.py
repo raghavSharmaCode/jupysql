@@ -40,41 +40,49 @@ class SqlCmdMagic(Magics, Configurable):
         """
         Command
         """
-        split = arg_split(line)
-        print('=============================================')
-        print()
-        print()
-        print(split)
-        print()
-        print()
-        print('=============================================')
 
-        cmd_name, others = split[0].strip(), split[1:]
-
-        if cmd_name == "tables":
-            parser = CmdParser()
-
-            parser.add_argument(
-                "-s", "--schema", type=str, help="Schema name", required=False
-            )
-
-            args = parser.parse_args(others)
-
-            return inspect.get_table_names(schema=args.schema)
-        elif cmd_name == "columns":
-            parser = CmdParser()
-
-            parser.add_argument(
-                "-t", "--table", type=str, help="Table name", required=True
-            )
-            parser.add_argument(
-                "-s", "--schema", type=str, help="Schema name", required=False
-            )
-
-            args = parser.parse_args(others)
-            return inspect.get_columns(name=args.table, schema=args.schema)
-        else:
+        if line == "":
             raise UsageError(
-                f"%sqlcmd has no command: {cmd_name!r}. "
+                f"Invalid %sqlcmd command: {line}. "
                 "Valid commands are: 'tables', 'columns'"
             )
+        
+        else:
+            split = arg_split(line)
+            # print('=============================================')
+            # print()
+            # print()
+            # print(split)
+            # print()
+            # print()
+            # print('=============================================')
+
+            cmd_name, others = split[0].strip(), split[1:]
+
+            if cmd_name == "tables":
+                parser = CmdParser()
+
+                parser.add_argument(
+                    "-s", "--schema", type=str, help="Schema name", required=False
+                )
+
+                args = parser.parse_args(others)
+
+                return inspect.get_table_names(schema=args.schema)
+            elif cmd_name == "columns":
+                parser = CmdParser()
+
+                parser.add_argument(
+                    "-t", "--table", type=str, help="Table name", required=True
+                )
+                parser.add_argument(
+                    "-s", "--schema", type=str, help="Schema name", required=False
+                )
+
+                args = parser.parse_args(others)
+                return inspect.get_columns(name=args.table, schema=args.schema)
+            else:
+                raise UsageError(
+                    f"%sqlcmd has no command: {cmd_name!r}. "
+                    "Valid commands are: 'tables', 'columns'"
+                )
