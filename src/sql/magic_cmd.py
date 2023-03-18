@@ -41,6 +41,15 @@ class SqlCmdMagic(Magics, Configurable):
         Command
         """
         split = arg_split(line)
+
+        print('=============================================')
+        print()
+        print()
+        print(split)
+        print()
+        print()
+        print('=============================================')
+
         cmd_name, others = split[0].strip(), split[1:]
 
         if cmd_name == "tables":
