@@ -43,7 +43,7 @@ class SqlCmdMagic(Magics, Configurable):
 
         if line == "":
             raise UsageError(
-                f"Invalid %sqlcmd command: {line}. "
+                f"Missing argument for %sqlcmd"
                 "\nValid commands are: 'tables', 'columns'"
             )
         
@@ -75,6 +75,6 @@ class SqlCmdMagic(Magics, Configurable):
                 return inspect.get_columns(name=args.table, schema=args.schema)
             else:
                 raise UsageError(
-                    f"%sqlcmd has no command: {cmd_name!r}. "
-                    "Valid commands are: 'tables', 'columns'"
+                    f"{cmd_name!r} is not a valid argument for %sqlcmd"
+                    "\nValid commands are: 'tables', 'columns'"
                 )
