@@ -49,13 +49,13 @@ class SqlCmdMagic(Magics, Configurable):
         
         else:
             split = arg_split(line)
-            # print('=============================================')
-            # print()
-            # print()
-            # print(split)
-            # print()
-            # print()
-            # print('=============================================')
+            print('=============================================')
+            print()
+            print()
+            print(split)
+            print()
+            print()
+            print('=============================================')
 
             cmd_name, others = split[0].strip(), split[1:]
 
