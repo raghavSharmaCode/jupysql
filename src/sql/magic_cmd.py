@@ -44,19 +44,11 @@ class SqlCmdMagic(Magics, Configurable):
         if line == "":
             raise UsageError(
                 f"Invalid %sqlcmd command: {line}. "
-                "Valid commands are: 'tables', 'columns'"
+                "\nValid commands are: 'tables', 'columns'"
             )
         
         else:
             split = arg_split(line)
-            print('=============================================')
-            print()
-            print()
-            print(split)
-            print()
-            print()
-            print('=============================================')
-
             cmd_name, others = split[0].strip(), split[1:]
 
             if cmd_name == "tables":
