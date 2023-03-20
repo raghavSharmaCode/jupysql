@@ -88,4 +88,3 @@ class SqlCmdMagic(Magics, Configurable):
 
             args = parser.parse_args(others)
             return inspect.get_columns(name=args.table, schema=args.schema)
-        
