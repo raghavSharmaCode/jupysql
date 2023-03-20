@@ -8,9 +8,16 @@ from IPython.core.error import UsageError
     "cell, error_type, error_message",
     [
         [
+            "%sqlcmd",
+            UsageError,
+            "Missing argument for %sqlcmd"
+            "\nValid commands are: 'tables', 'columns'",
+        ],
+        [
             "%sqlcmd stuff",
             UsageError,
-            "%sqlcmd has no command: 'stuff'. Valid commands are: 'tables', 'columns'",
+            "'stuff' is not a valid argument for %sqlcmd"
+            "\nValid commands are: 'tables', 'columns'",
         ],
         [
             "%sqlcmd columns",
