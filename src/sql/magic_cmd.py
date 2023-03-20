@@ -36,45 +36,55 @@ class SqlCmdMagic(Magics, Configurable):
     @line_magic("sqlcmd")
     @magic_arguments()
     @argument("line", default="", type=str, help="Command name")
-    def execute(self, line="", cell="", local_ns=None):
+    def _validate_inputs(self, line=""):
         """
         Command
         """
 
         if line == "":
             raise UsageError(
-                f"Missing argument for %sqlcmd"
+                "Missing argument for %sqlcmd"
                 "\nValid commands are: 'tables', 'columns'"
             )
-        
         else:
             split = arg_split(line)
-            cmd_name, others = split[0].strip(), split[1:]
+            command, others = split[0].strip(), split[1:]
 
-            if cmd_name == "tables":
-                parser = CmdParser()
-
-                parser.add_argument(
-                    "-s", "--schema", type=str, help="Schema name", required=False
-                )
-
-                args = parser.parse_args(others)
-
-                return inspect.get_table_names(schema=args.schema)
-            elif cmd_name == "columns":
-                parser = CmdParser()
-
-                parser.add_argument(
-                    "-t", "--table", type=str, help="Table name", required=True
-                )
-                parser.add_argument(
-                    "-s", "--schema", type=str, help="Schema name", required=False
-                )
-
-                args = parser.parse_args(others)
-                return inspect.get_columns(name=args.table, schema=args.schema)
+            if command == "tables" or command == "columns":
+                return self.execute(command, others)
             else:
                 raise UsageError(
-                    f"{cmd_name!r} is not a valid argument for %sqlcmd"
+                    f"{command!r} is not a valid argument for %sqlcmd"
                     "\nValid commands are: 'tables', 'columns'"
                 )
+
+    
+    @argument("cmd_name", default="", type=str, help="Command name")
+    @argument("others", default="", type=str, help="Other tags")
+    def execute(self, cmd_name="", others="", cell="", local_ns=None):
+        """
+        Command
+        """
+
+        if cmd_name == "tables":
+            parser = CmdParser()
+
+            parser.add_argument(
+                "-s", "--schema", type=str, help="Schema name", required=False
+            )
+
+            args = parser.parse_args(others)
+
+            return inspect.get_table_names(schema=args.schema)
+        else:
+            parser = CmdParser()
+
+            parser.add_argument(
+                "-t", "--table", type=str, help="Table name", required=True
+            )
+            parser.add_argument(
+                "-s", "--schema", type=str, help="Schema name", required=False
+            )
+
+            args = parser.parse_args(others)
+            return inspect.get_columns(name=args.table, schema=args.schema)
