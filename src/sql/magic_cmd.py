@@ -53,9 +53,9 @@ class SqlCmdMagic(Magics, Configurable):
             split = arg_split(line)
             command, others = split[0].strip(), split[1:]
 
-            if command == "tables" or command == "columns" or command == "test" or command == "profile":
-                return self.execute(command, others)
-            else:
+    AVAILABLE_SQLCMD_COMMANDS = ["tables", "columns", "test", "profile"]
+    if command in AVAILABLE_SQLCMD_COMMANDS:
+        return self.execute(command, others)
                 raise UsageError(
                     f"%sqlcmd has no command: {command!r}. "
                     "Valid commands are: 'tables', 'columns', 'profile'"
