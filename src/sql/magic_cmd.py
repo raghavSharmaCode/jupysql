@@ -2,11 +2,7 @@ import sys
 import argparse
 
 from IPython.utils.process import arg_split
-from IPython.core.magic import (
-    Magics,
-    line_magic,
-    magics_class
-)
+from IPython.core.magic import Magics, line_magic, magics_class
 from IPython.core.magic_arguments import argument, magic_arguments
 from IPython.core.error import UsageError
 from sqlglot import select, condition
@@ -36,8 +32,6 @@ class CmdParser(argparse.ArgumentParser):
 class SqlCmdMagic(Magics, Configurable):
     """%sqlcmd magic"""
 
-
-
     @line_magic("sqlcmd")
     @magic_arguments()
     @argument("line", default="", type=str, help="Command name")
@@ -51,7 +45,7 @@ class SqlCmdMagic(Magics, Configurable):
         if line == "":
             raise UsageError(
                 "Missing argument for %sqlcmd. "
-                "Valid commands are: {}".format(', '.join(AVAILABLE_SQLCMD_COMMANDS))
+                "Valid commands are: {}".format(", ".join(AVAILABLE_SQLCMD_COMMANDS))
             )
         else:
             split = arg_split(line)
@@ -62,9 +56,10 @@ class SqlCmdMagic(Magics, Configurable):
             else:
                 raise UsageError(
                     f"%sqlcmd has no command: {command!r}. "
-                    "Valid commands are: {}".format(', '.join(AVAILABLE_SQLCMD_COMMANDS))
+                    "Valid commands are: {}".format(
+                        ", ".join(AVAILABLE_SQLCMD_COMMANDS)
                     )
-    
+                )
 
     @argument("cmd_name", default="", type=str, help="Command name")
     @argument("others", default="", type=str, help="Other tags")
@@ -163,7 +158,6 @@ class SqlCmdMagic(Magics, Configurable):
                 return True
 
         elif cmd_name == "profile":
-
             parser = CmdParser()
             parser.add_argument(
                 "-t", "--table", type=str, help="Table name", required=True
@@ -179,9 +173,7 @@ class SqlCmdMagic(Magics, Configurable):
 
             args = parser.parse_args(others)
 
-            report = inspect.get_table_statistics(
-                schema=args.schema, name=args.table
-            )
+            report = inspect.get_table_statistics(schema=args.schema, name=args.table)
 
             if args.output:
                 with open(args.output, "w") as f:
