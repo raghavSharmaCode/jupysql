@@ -47,7 +47,7 @@ class SqlCmdMagic(Magics, Configurable):
         if line == "":
             raise UsageError(
                 "Missing argument for %sqlcmd. "
-                "Valid commands are: 'tables', 'columns', 'profile'"
+                "Valid commands are: {}".format(','.join(AVAILABLE_SQLCMD_COMMANDS))
             )
         else:
             split = arg_split(line)
