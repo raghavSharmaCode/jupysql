@@ -20,6 +20,7 @@ except ImportError:
 import sql.connection
 from sql import inspect
 import sql.run
+import sql.run
 
 
 class CmdParser(argparse.ArgumentParser):
@@ -34,6 +35,7 @@ class CmdParser(argparse.ArgumentParser):
 @magics_class
 class SqlCmdMagic(Magics, Configurable):
     """%sqlcmd magic"""
+
 
 
     @line_magic("sqlcmd")
