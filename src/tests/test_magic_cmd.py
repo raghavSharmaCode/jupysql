@@ -11,14 +11,12 @@ from pathlib import Path
         [
             "%sqlcmd",
             UsageError,
-            "Missing argument for %sqlcmd. "
-            "Valid commands are: 'tables', 'columns', 'profile'",
+            "Missing argument for %sqlcmd. Valid commands are: tables, columns, test, profile",
         ],
         [
             "%sqlcmd stuff",
             UsageError,
-            "%sqlcmd has no command: 'stuff'. Valid commands are: 'tables', "
-            "'columns', 'profile'",
+            "%sqlcmd has no command: 'stuff'. Valid commands are: tables, columns, test, profile",
         ],
         [
             "%sqlcmd columns",
