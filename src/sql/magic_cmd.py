@@ -33,10 +33,11 @@ class SqlCmdMagic(Magics, Configurable):
 
     @line_magic("sqlcmd")
     @magic_arguments()
-    @argument("line", default="", type=str, help="Command name")
-    def _validate_inputs(self, line=""):
+    @argument("line", type=str, help="Command name")
+    def _validate_execute_inputs(self, line):
         """
-        Command
+        Function to validate %sqlcmd inputs.
+        Raises UsageError in case of an invalid input, executes command otherwise.
         """
 
         AVAILABLE_SQLCMD_COMMANDS = ["tables", "columns", "test", "profile"]
